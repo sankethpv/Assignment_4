@@ -1,16 +1,19 @@
-%This is matlab code
-x = 0:1/1000:2*pi;           
-f = exp(x).*sin(2*x);        
-f_exp=0;                     
-N = 6;                       
-for n=1:5                   
-An = (exp(2*pi)-1)/(2*pi)*(4*n^2-20)/(n^4-6*n^2+25);  
-Bn = (exp(2*pi)-1)/(2*pi)*(8*n)/(n^4-6*n^2+25); 
-f_exp = f_exp + An*cos(n*x) + Bn*sin(n*x); 
-k=0;
-k=k+f_exp;
-end 
-A0 = (1-exp(2*pi))/(5*pi);   
-f_exp = f_exp+A0;            
-plot(x,f,x,k)            
-title('cumulative Sum of first 5 terms of Fourier Series');  
+
+clear;
+hold off
+L     = 1;                        
+x     = linspace(-3*L, 3*L, 300); 
+Const = 4*L/pi;                    
+Sn    = 0;                       
+
+for n = 1 : 2 : 5                 
+    Bn = Const/n;                  
+    Fn = Bn * sin(n*pi*x);         
+    Sn = Sn + Fn;                  
+    plot(x, Sn, 'linewidth', n/2); 
+    hold on;
+end
+
+xlabel('x'); ylabel('Sum(B_nsin(n\pix))');
+title('Sum of first few terms in the sine series B_nsin(n\pix) (L=1)');
+plot(x, -1 + 2*(x>-2).*(x<-1) + 2*(x>0).*(x<1) + 2*(x>2).*(x<3),  'k-', 'linewidth', 1.5) 
